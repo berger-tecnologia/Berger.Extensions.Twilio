@@ -8,21 +8,21 @@ namespace Berger.Extensions.Twilio
 	{
 		private readonly string _accountSid;
 		private readonly string _authToken;
-		private readonly string _sender;
+		private readonly string _source;
 
-		public TwilioService(string accountSid, string authToken, string sender)
+		public TwilioService(string accountSid, string authToken, string source)
 		{
-			_accountSid = accountSid;
+            _source = source;
 			_authToken = authToken;
-			_sender = sender;
-		}
-		public async Task<MessageResource> Send(string receiver, string body)
+            _accountSid = accountSid;
+        }
+		public async Task<MessageResource> Send(string target, string body)
 		{
 			TwilioClient.Init(_accountSid, _authToken);
 
-			var messageOptions = new CreateMessageOptions(new PhoneNumber(receiver))
+			var messageOptions = new CreateMessageOptions(new PhoneNumber(target))
 			{
-				From = new PhoneNumber(_sender),
+				From = new PhoneNumber(_source),
 				Body = body
 			};
 
